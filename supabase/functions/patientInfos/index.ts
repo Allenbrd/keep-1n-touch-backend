@@ -2,7 +2,6 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
-import getFHIRAccessToken from "../_shared/getFHIRAccessToken.ts";
 import getPatientFHIRData from "../_shared/getPatientFHIRData.ts";
 import getPatientVisit from "../_shared/getPatientVisit.ts";
 import supabaseAdmin from "../_shared/supabaseAdmin.ts";

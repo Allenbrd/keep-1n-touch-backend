@@ -54,9 +54,7 @@ async function getPatientVisit(patientId: string, supabase: SupabaseClient, most
           }
         
           return visitData;
-
     }
-
-  }
+}
 
 export default getPatientVisit;
