@@ -136,8 +136,9 @@ Replace `<your-token>`, `<patient-id>`, `<visit-id>`, and `<visit-details>` with
 ## Shared Functions
 The .supabase/functions/_shared folder contains utility functions used across the project:
 
+- `FHIRResources`: Defining FHIR API resources interfaces.
 - `getFHIRAccessToken`: Getting the FHIR API access token in order to call the FHIR API.
-- `getPatientFHIRData`: Getting the patient's FHIR Data including medications and treatment, allergies, condition, and vital signs.
+- `getPatientFHIRData`: Getting the patient's medications and allergies from the FHIR API.
 - `getPatientVisit`: Get information about a specific visit, including the patient's mood, taken medications, and symptomes.
 - `supabaseAdmin`: Creates a service role supabase client.
 - `supabaseClient`: Creates a supabase client using the user's JWT token.

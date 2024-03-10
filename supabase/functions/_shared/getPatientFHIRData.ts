@@ -12,9 +12,7 @@ async function getClientFHIRData(patientId: string) {
     const patientUrl = `${fhirServiceUrl}/Patient/${patientId}`;
     
     // Prepare URLs for the additional resources
-    const vitalSignsUrl = `${fhirServiceUrl}/Observation?patient=${patientId}&category=vital-signs`;
     const allergiesUrl = `${fhirServiceUrl}/AllergyIntolerance?patient=${patientId}`;
-    const conditionsUrl = `${fhirServiceUrl}/Condition?patient=${patientId}`;
     const medicationStatementUrl = `${fhirServiceUrl}/MedicationStatement?patient=${patientId}`;
   
     try {
@@ -27,21 +25,7 @@ async function getClientFHIRData(patientId: string) {
             Accept: "application/fhir+json",
           },
         }),
-        fetch(vitalSignsUrl, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: "application/fhir+json",
-          },
-        }),
         fetch(allergiesUrl, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: "application/fhir+json",
-          },
-        }),
-        fetch(conditionsUrl, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -64,7 +48,7 @@ async function getClientFHIRData(patientId: string) {
       }
   
       // Parse JSON for all responses
-      const [patientData, vitalSignsData, allergiesData, conditionsData, medicationStatementData] = await Promise.all(
+      const [patientData, allergiesData, medicationStatementData] = await Promise.all(
         results.map(response => response.json())
       );
   
@@ -72,11 +56,7 @@ async function getClientFHIRData(patientId: string) {
       return {
         patient: patientData,
         // deno-lint-ignore no-explicit-any
-        vitalSigns: vitalSignsData.entry.map((e: any) => e.resource),
-        // deno-lint-ignore no-explicit-any
         allergies: allergiesData.entry.map((e: any) => e.resource),
-        // deno-lint-ignore no-explicit-any
-        conditions: conditionsData.entry.map((e: any) => e.resource),
         // deno-lint-ignore no-explicit-any
         medicationStatements: medicationStatementData.entry.map((e: any) => e.resource),
       };
