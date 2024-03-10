@@ -37,6 +37,69 @@ Please reffer to the environment variables section.
 supabase start
 ```
 
+### Setting up the database
+
+#### Description
+
+In order to store and manage generated data, we will have to create a SQL relational database. Let's create the following tables, respecting the schema down bellow:
+- patients: storing the patient's information.
+- visits: storing done visits.
+- mood: storing a patient's move during a given visit.
+- symptoms: storing the patient's symptoms during a given visit.
+- medication: storing medications taken by a patient at a given visit.
+
+![database schema](https://i.ibb.co/44cXgKg/Capture-d-cran-2024-03-10-182346.png)
+
+#### Steps
+
+1. Navigate to http://127.0.0.1:54323 in order to access your local Supabase interface.
+
+2. Once you have accessed the interface, navigate to the SQL Editor present in the left menu bar.
+
+3. Now, create necessary tables by executing the following SQL query in the editor:
+
+```sql
+-- Create patients table
+CREATE TABLE patients (
+    id UUID PRIMARY KEY,
+    name TEXT NOT NULL,
+    birth_date DATE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create visits table
+CREATE TABLE visits (
+    id UUID PRIMARY KEY,
+    patient_id UUID PRIMARY KEY REFERENCES patients(id),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create symptoms table
+CREATE TABLE symptoms (
+    visit_id UUID PRIMARY KEY REFERENCES visits(id),
+    patient_id UUID PRIMARY KEY REFERENCES patients(id),
+    value TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create medication table
+CREATE TABLE medication (
+    visit_id UUID PRIMARY KEY REFERENCES visits(id),
+    patient_id UUID PRIMARY KEY REFERENCES patients(id),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    taken TEXT
+);
+
+-- Create mood table
+CREATE TABLE mood (
+    visit_id UUID PRIMARY KEY REFERENCES visits(id),
+    patient_id UUID PRIMARY KEY REFERENCES patients(id),
+    level INT2 NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+
 ## Usage
 This repository provides the following edge functions:
 
