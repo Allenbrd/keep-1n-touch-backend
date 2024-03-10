@@ -51,8 +51,6 @@ async function createFHIRPatient(fhirAccessToken: string, patientData: PatientDa
 
 async function createNewPatientWithDetails(supabase: SupabaseClient, fhirAccessToken: string, patientDetails: PatientData) {
 
-
-
   // First, create the patient in FHIR
   const fhirPatientId = await createFHIRPatient(fhirAccessToken, patientDetails);
 
@@ -89,23 +87,19 @@ async function createNewPatientWithDetails(supabase: SupabaseClient, fhirAccessT
 
 Deno.serve(async (req) => {
 
-  const accessToken = await getFHIRAccessToken();
-  if (!accessToken) {
+  const fhirAccessToken = await getFHIRAccessToken();
+  if (!fhirAccessToken) {
     return new Response("Failed to obtain access token.", { status: 500 });
   }
 
   const authHeader = req.headers.get('Authorization')!
   const supabase = supabaseClient(authHeader);
 
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
-  }
+  const { new_patient } = await req.json()
+  
+  createNewPatientWithDetails(supabase, fhirAccessToken, new_patient);
 
-  return new Response(
-    JSON.stringify(data),
-    { headers: { "Content-Type": "application/json" } },
-  )
+  return new Response('', { status: 200 });
 })
 
 /* To invoke locally:
