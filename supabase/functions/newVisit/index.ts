@@ -40,8 +40,7 @@ async function createNewVisit(
   medicationData: Omit<Medication, 'visit_id'>[],
   symptomData: Omit<Symptom, 'visit_id'>[],
 ): Promise<void> {
-  // Supposing Supabase client has been initialized and imported as `supabase`
-  // Start a transaction
+  // inseting visit into database
   const { data: visitData, error: visitError } = await admin
     .from('visits')
     .insert({ patient_id: patientId });
@@ -60,7 +59,6 @@ async function createNewVisit(
 
   if (moodError) {
     console.error('Error inserting mood:', moodError);
-    // Optionally handle transaction rollback
     return;
   }
 
@@ -72,7 +70,6 @@ async function createNewVisit(
 
     if (medicationError) {
       console.error('Error inserting medication:', medicationError);
-      // Optionally handle transaction rollback
       return;
     }
   }
@@ -85,7 +82,6 @@ async function createNewVisit(
   
     if (symptomError) {
       console.error('Error inserting symptom:', symptomError);
-      // Optionally handle transaction rollback
       return;
     }
   }
@@ -93,33 +89,6 @@ async function createNewVisit(
   // If all insertions are successful
   console.log('New visit and associated data were inserted successfully');
 }
-
-console.log("Hello from Functions!")
-Deno.serve(async (req) => {
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
-  }
-  return new Response(
-    JSON.stringify(data),
-    { headers: { "Content-Type": "application/json" } },
-  )
-})
-
-
-console.log("Hello from Functions!")
-
-Deno.serve(async (req) => {
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
-  }
-
-  return new Response(
-    JSON.stringify(data),
-    { headers: { "Content-Type": "application/json" } },
-  )
-})
 
 /* To invoke locally:
 

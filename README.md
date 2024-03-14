@@ -48,7 +48,7 @@ In order to store and manage generated data, we will have to create a SQL relati
 - symptoms: storing the patient's symptoms during a given visit.
 - medication: storing medications taken by a patient at a given visit.
 
-![database schema](https://i.ibb.co/44cXgKg/Capture-d-cran-2024-03-10-182346.png)
+![database schema](https://i.ibb.co/9wWktR5/scenario2schema.png)
 
 #### Steps
 

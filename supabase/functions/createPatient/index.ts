@@ -46,7 +46,7 @@ async function createFHIRPatient(fhirAccessToken: string, patientData: PatientDa
   }
 
   const fhirPatient = await response.json();
-  return fhirPatient.id; // Assuming FHIR API returns the patient id in this field
+  return fhirPatient.id;
 }
 
 async function createNewPatientWithDetails(supabase: SupabaseClient, fhirAccessToken: string, patientDetails: PatientData) {
@@ -66,9 +66,6 @@ async function createNewPatientWithDetails(supabase: SupabaseClient, fhirAccessT
   if (supabasePatientError) {
     throw new Error(`Failed to insert patient in Supabase: ${supabasePatientError?.message}`);
   }
-
-  // Insert the other patient details like medications, vital signs, conditions, allergies into FHIR API
-  // Similar to creating the patient, you would create these resources with the FHIR API
 
   for (const medication of patientDetails.medications) {
     createMedicationAdministration(fhirAccessToken,  fhirPatientId, medication)

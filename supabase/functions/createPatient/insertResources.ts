@@ -1,5 +1,4 @@
 import { AllergyIntolerance, MedicationAdministration } from "../_shared/FHIRResources.ts";
-import getFHIRAccessToken from "../_shared/getFHIRAccessToken.ts";
 
 const fhirServiceUrl = Deno.env.get("AZURE_FHIR_SERVICE_URL")!;
 
@@ -19,7 +18,6 @@ export async function createMedicationAdministration(fhirAccessToken: string, pa
       subject: { reference: `Patient/${patientFhirId}` },
       status: 'active',
       intent: 'order',
-      // medicationCodeableConcept and other necessary fields should be filled in here as needed
     })
   });
 
